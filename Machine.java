@@ -6,22 +6,26 @@ class Machine {
         admin = i;
     }
 
-    boolean checkLogIn(int id,String pass){
+    boolean checkLogIn(String name,String pass){
         int i = 0;
 
-        while(i<admin.size()&&admin.get(i).getId()!=id){
+        while(i<admin.size()&&!admin.get(i).getName().equals(name)){
             i++;
         }
-        if(i<admin.size()&&admin.get(i).getId()==id&&admin.get(i).getPass().equals(pass)){
+        if(i<admin.size()&&admin.get(i).getName().equals(name)&&admin.get(i).getPass().equals(pass)){
             return true;
         }
         return false;
     }
-    void withDraw(int id,double amount,String pass){
-        id--;
-        if(id>=0&&admin.get(id).getBalance()>amount){
-            double temp = admin.get(id).getBalance()-amount;
-            Administer.dta.get(id).setBalance(temp);
+    void withDraw(String name,double amount,String pass){
+
+        int i=0;
+        while(i<admin.size()&&!admin.get(i).getName().equals(name)){
+            i++;
+        }
+        if(admin.get(i).getName().equals(name)&&admin.get(i).getBalance()>amount){
+            double temp = admin.get(i).getBalance()-amount;
+            Administer.dta.get(i).setBalance(temp);
             System.out.println("Cash withdrawal successful");
         }
         else{
@@ -29,9 +33,12 @@ class Machine {
         }
     }
 
-    Customers viewDetails(int id){
-        id--;
-        return admin.get(id);
+    Customers viewDetails(String name){
+        int i=0;
+        while(i<admin.size()&&!admin.get(i).getName().equals(name)){
+            i++;
+        }
+        return admin.get(i);
     }
     void logOut(){
         System.out.println("Successfully logged out");
